@@ -1,231 +1,299 @@
 <!DOCTYPE html>
-<html lang="ckb">
+<html lang="ku" dir="rtl">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>خۆشەویستی من</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نازداری من - خۆشەویست</title>
     <style>
-        /* ڕێکخستنی گشتی */
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;700&display=swap');
+        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-
+        
         body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            background: linear-gradient(145deg, #1a0b1f 0%, #3d1f3d 100%);
             display: flex;
             justify-content: center;
             align-items: center;
-            font-family: 'Segoe UI', 'Noto Naskh Arabic', 'Tahoma', cursive, sans-serif;
+            font-family: 'Noto Naskh Arabic', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             padding: 20px;
         }
-
-        .card {
-            max-width: 520px;
-            width: 100%;
-            background: rgba(255, 245, 235, 0.1);
-            backdrop-filter: blur(14px);
-            -webkit-backdrop-filter: blur(14px);
-            border-radius: 60px 20px 60px 20px;
-            box-shadow: 0 30px 50px rgba(0, 0, 0, 0.7), 0 0 0 2px rgba(255, 215, 200, 0.15);
-            padding: 28px 22px 38px;
-            transition: all 0.3s;
+        
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            padding: 30px;
             text-align: center;
-            border: 1px solid rgba(255, 220, 180, 0.25);
-        }
-
-        /* دکمەکە */
-        .love-btn {
+            max-width: 600px;
             width: 100%;
-            padding: 20px 10px;
-            font-size: 2.2rem;
-            font-weight: bold;
-            color: #fff7e6;
-            background: linear-gradient(135deg, #b32e5a, #691c3b);
+        }
+        
+        .heart-btn {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            color: white;
             border: none;
-            border-radius: 120px;
+            padding: 15px 40px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            border-radius: 50px;
             cursor: pointer;
-            box-shadow: 0 12px 0 #3f0e1f, 0 8px 25px rgba(190, 60, 100, 0.6);
-            transition: all 0.08s linear;
-            letter-spacing: 2px;
-            text-shadow: 0 4px 6px #1f0b13;
-            font-family: inherit;
-            margin-bottom: 28px;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(238, 90, 36, 0.3);
+            margin-bottom: 30px;
+            font-family: 'Noto Naskh Arabic', sans-serif;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
         }
-
-        .love-btn:active {
-            transform: translateY(8px);
-            box-shadow: 0 4px 0 #3f0e1f, 0 8px 20px #b32e5a;
+        
+        .heart-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(238, 90, 36, 0.4);
         }
-
-        /* شوێنی ڤیدیۆ */
-        .video-wrapper {
-            position: relative;
-            width: 100%;
-            padding-bottom: 56.25%; /* 16:9 */
-            height: 0;
-            border-radius: 32px 12px 32px 12px;
-            overflow: hidden;
-            background: #0f0710;
-            box-shadow: inset 0 0 30px #0b050b, 0 12px 28px #100510;
-            margin-bottom: 18px;
-            border: 1px solid #9f6a7a;
+        
+        .heart-btn:active {
+            transform: translateY(-1px);
         }
-
-        .video-wrapper video {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+        
+        .heart-icon {
+            font-size: 1.8rem;
+            animation: heartbeat 1.5s ease infinite;
+        }
+        
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            15% { transform: scale(1.15); }
+            30% { transform: scale(1); }
+            45% { transform: scale(1.15); }
+            60% { transform: scale(1); }
+            100% { transform: scale(1); }
+        }
+        
+        .content-section {
+            display: none;
+            animation: fadeInUp 0.8s ease;
+        }
+        
+        .content-section.show {
             display: block;
         }
-
-        /* وێنەکە */
-        .image-wrapper {
-            width: 100%;
-            border-radius: 40px 8px 40px 8px;
-            overflow: hidden;
-            box-shadow: 0 15px 30px #0b040b;
-            margin: 16px 0 16px;
-            border: 2px solid #b28b8b;
-            transition: 0.3s;
-            background: #250f1a;
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
-
-        .image-wrapper img {
+        
+        .love-image {
             width: 100%;
-            height: auto;
-            display: block;
+            max-width: 400px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            margin-bottom: 25px;
+            border: 5px solid white;
         }
-
-        /* تێکستی خوارەوە - بە فۆنتی کوردی (ئەم ستایلە بۆ سەرجەم نوسینە کوردییەکان باشە) */
-        .poem-text {
-            font-family: 'Noto Naskh Arabic', 'Scheherazade New', 'Amiri', 'Tahoma', serif;
-            font-size: 1.1rem;
-            line-height: 2.1;
-            color: #fff7ea;
-            background: rgba(20, 5, 15, 0.6);
-            padding: 22px 18px;
-            border-radius: 60px 8px 60px 8px;
-            backdrop-filter: blur(4px);
-            -webkit-backdrop-filter: blur(4px);
-            border-right: 6px solid #d49b8a;
-            border-left: 2px solid #ac6b7a;
-            box-shadow: 0 4px 20px #14070e;
-            text-shadow: 0 2px 3px #0a0308;
-            direction: rtl;
-            letter-spacing: 0.4px;
+        
+        .love-text {
+            font-size: 1.3rem;
+            line-height: 2;
+            color: #2d3436;
             font-weight: 400;
-            word-spacing: 2px;
-            margin-top: 8px;
+            text-align: center;
+            direction: rtl;
+            background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            position: relative;
         }
-
-        /* بۆ ئەوەی ڕستەکان بە ڕێکی بشکێت */
-        .poem-text p {
-            margin: 0;
+        
+        .love-text::before {
+            content: '"';
+            font-size: 4rem;
+            color: #ee5a24;
+            opacity: 0.3;
+            position: absolute;
+            top: -20px;
+            right: 10px;
         }
-
-        /* بچووککردنەوە بۆ مۆبایل */
-        @media (max-width: 500px) {
-            .card { padding: 18px 12px 28px; }
-            .love-btn { font-size: 1.8rem; padding: 16px 6px; }
-            .poem-text { font-size: 0.95rem; line-height: 2; padding: 18px 12px; }
+        
+        .love-text::after {
+            content: '"';
+            font-size: 4rem;
+            color: #ee5a24;
+            opacity: 0.3;
+            position: absolute;
+            bottom: -40px;
+            left: 10px;
+        }
+        
+        .video-container {
+            margin-bottom: 25px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        video {
+            width: 100%;
+            border-radius: 15px;
+        }
+        
+        .sparkles {
+            position: fixed;
+            pointer-events: none;
+            z-index: 1000;
+        }
+        
+        .sparkle {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #ffd700;
+            border-radius: 50%;
+            animation: sparkleAnimation 1s ease-out forwards;
+        }
+        
+        @keyframes sparkleAnimation {
+            0% { 
+                transform: translate(0, 0) scale(1); 
+                opacity: 1; 
+            }
+            100% { 
+                transform: translate(var(--x), var(--y)) scale(0); 
+                opacity: 0; 
+            }
         }
     </style>
 </head>
 <body>
-    <div class="card">
-
-        <!-- دکمەی کلیک -->
-        <button class="love-btn" id="loveButton">💖 کلیک بکە نازداریم 💖</button>
-
-        <!-- ڤیدیۆکە -->
-        <div class="video-wrapper" id="videoWrapper">
-            <video id="loveVideo" preload="metadata">
-                <source src="https://github.com/farzadkhdr/hawsrakam_rayan/raw/main/p/-2502922404567162219.mp4" type="video/mp4">
-                وێبگەڕەکەت پشتگیری ڤیدیۆ ناکات.
-            </video>
-        </div>
-
-        <!-- وێنەکە -->
-        <div class="image-wrapper">
+    <div class="container">
+        <button class="heart-btn" onclick="showLove()">
+            <span class="heart-icon">❤️</span>
+            نازداری من خۆشەویست
+            <span class="heart-icon">❤️</span>
+        </button>
+        
+        <div class="content-section" id="loveContent">
+            <div class="video-container">
+                <video id="loveVideo" controls>
+                    <source src="https://raw.githubusercontent.com/farzadkhdr/hawsrakam_rayan/main/p/-2502922404567162219.mp4" type="video/mp4">
+                    براوزەرەکەت پشتگیری ڤیدیۆ ناکات
+                </video>
+            </div>
+            
             <img 
-                src="https://github.com/farzadkhdr/hawsrakam_rayan/raw/main/p/IMG_8262.jpeg" 
-                alt="وێنەی خۆشەویستی" 
-                id="loveImage"
-                loading="lazy"
-            />
-        </div>
-
-        <!-- تێکستە کوردییەکە (بە فۆنتێکی جوان) -->
-        <div class="poem-text">
-            <p>
-                ڕەیانم تاقانەی هەردوو دونیام<br />
-                زۆر جار دەڵێم خوایە دەبێ من نانم دابیتە چ فەقیرێک<br />
-                کە ئاوا بەتۆ قەربووی بۆ کردوومەتەوە<br />
-                یان گرێ بەختم کراوەتەوە<br />
-                یان دوا ساتە خۆشەکانی ژیانمە<br />
-                کە خودا تۆی بۆمن ناردووە<br />
-                هاوسەرە جوانەکەی من<br />
-                تاقانەی من<br />
-                جوانکیلەی ماڵی من<br />
-                جیانم فیدات بی باشە
-            </p>
+                src="https://raw.githubusercontent.com/farzadkhdr/hawsrakam_rayan/main/p/IMG_8262.jpeg" 
+                alt="هاوسەری جوان" 
+                class="love-image"
+            >
+            
+            <div class="love-text">
+                رەیـانـم تاقـانـەی هـەردوو دونیـام<br>
+                زۆر جـار دەڵێـم خوایـە دەبـێ من نانـم دابیتـە چ فەقـیرێـک<br>
+                کـە ئـاوا بەتـۆ قـەربووی بۆ کـردوومەتەوە<br>
+                یـان گـرێ بەختـم کـراوەتەوە<br>
+                یـان دواسـاتە خـۆشەکـانی ژیانمـە<br>
+                کـە خودا تـۆی بۆمـن نـاردووە<br>
+                هـاوسـەرە جـوانەکـەی مـن<br>
+                تـاقانـەی مـن جـوانکـیلەی مـاڵی مـن<br>
+                جـیانم فـیدات بـی باشـە
+            </div>
         </div>
     </div>
+    
+    <div class="sparkles" id="sparkles"></div>
 
     <script>
-        (function() {
-            const button = document.getElementById('loveButton');
+        function showLove() {
+            const content = document.getElementById('loveContent');
             const video = document.getElementById('loveVideo');
-            const videoWrapper = document.getElementById('videoWrapper');
-
-            // کاتێ کلیک دەکات، ڤیدیۆ دەست پێدەکات
-            button.addEventListener('click', function() {
-                // ئەگەر ڤیدیۆ بە تاکەوە بێت، پێی بڵێن لێبدە
-                if (video.paused) {
-                    video.play().catch(function(error) {
-                        // ئەگەر هەر کێشەیەک هەبوو، بێدەنگی تێپەڕێنە
-                        console.log("ڤیدیۆ نەیتوانی لێبدات:", error);
-                    });
-                } else {
-                    // ئەگەر دەنگی هەیە، بکوژێنەوە (بۆ ئەوەی جارێکی تر کلیک بکات دووبارە لێیبداتەوە)
-                    video.pause();
-                    // بۆ ئەوەی کە کلیکی دووبارە بیکاتەوە، دەستپێبکاتەوە
-                    // بەڵام باشترە هەر دەستپێبکاتەوە لە سەرەتاوە کاتێک کلیک دەکات
-                    // ئێمە دەستپێکردنەوە لە سەرەتاوە بۆ ئەم حاڵەتە دروست دەکەین
-                }
-                // هەر جارێک کلیک بکات، ڤیدیۆکە لە سەرەتاوە دەست پێدەکات (ئەگەر تەواو بووبێت یان پاوز کرابێت)
-                // بەڵام ئەمە وا دەکات کە بەردەوام بێت، باشترە پاوز بکات بۆ ئەوەی بەردەوام بێت
-                // بۆیە ئەم کۆدە بەکاری دەهێنین: 
-                // ئەگەر ڤیدیۆکە تەواو بوو، بیگەڕێنە سەرەتا و بلێ
-                if (video.ended) {
-                    video.currentTime = 0;
-                    video.play().catch(() => {});
-                } else if (video.paused) {
-                    // ئەگەر پاوز کرابوو، بلێ
-                    video.play().catch(() => {});
-                } else {
-                    // ئەگەر دەنگی هەیە، بکوژێنەوە (بۆ ئەوەی جارێکی تر کلیک بکات دووبارە لێبدرێت)
-                    video.pause();
-                }
-            });
-
-            // ئەگەر ڤیدیۆکە بە هۆکاری ترەوە وەستا، دەتوانین ڕێگە بدەین
-            // بەڵام هیچی تر پێویست نییە
-
-            // بۆ باشتر کردن، کاتێ ڤیدیۆ تەواو دەبێت، خۆکارانە پاوز ناکات
-            // تا کلیکی دووبارە بیکاتەوە لێیبداتەوە
-            video.addEventListener('ended', function() {
-                // هیچ ناکەین، بەڵام دەتوانین ڕەنگی دکمە بگۆڕین یان شتێکی تر
-                // بەڵام وا باشترە
-            });
-
-        })();
+            
+            // نیشاندانی ناوەرۆک
+            content.classList.add('show');
+            
+            // دەستپێکردنی ڤیدیۆ
+            if (video) {
+                video.play().catch(error => {
+                    console.log('ناتوانرێت ڤیدیۆکە بە شێوەی ئۆتۆماتیکی دەست پێبکات');
+                });
+            }
+            
+            // دروستکردنی سپارکڵ
+            createSparkles();
+            
+            // سکرۆڵ بۆ ناوەرۆکەکە
+            setTimeout(() => {
+                content.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 300);
+        }
+        
+        function createSparkles() {
+            const sparklesContainer = document.getElementById('sparkles');
+            const numberOfSparkles = 30;
+            
+            for (let i = 0; i < numberOfSparkles; i++) {
+                setTimeout(() => {
+                    const sparkle = document.createElement('div');
+                    sparkle.className = 'sparkle';
+                    
+                    const x = (Math.random() - 0.5) * 200;
+                    const y = (Math.random() - 0.5) * 200;
+                    
+                    sparkle.style.setProperty('--x', `${x}px`);
+                    sparkle.style.setProperty('--y', `${y}px`);
+                    
+                    sparkle.style.left = `${Math.random() * 100}%`;
+                    sparkle.style.top = `${Math.random() * 100}%`;
+                    
+                    sparkle.style.width = `${Math.random() * 15 + 5}px`;
+                    sparkle.style.height = sparkle.style.width;
+                    
+                    sparklesContainer.appendChild(sparkle);
+                    
+                    // لابردنی سپارکڵ دوای ئەنیمەیشن
+                    setTimeout(() => {
+                        sparkle.remove();
+                    }, 1000);
+                }, i * 50);
+            }
+        }
+        
+        // ئیڤێنتی کلیک بۆ دروستکردنی سپارکڵ لە شوێنی کلیک
+        document.addEventListener('click', function(e) {
+            const sparklesContainer = document.getElementById('sparkles');
+            const rect = sparklesContainer.getBoundingClientRect();
+            
+            for (let i = 0; i < 5; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'sparkle';
+                
+                sparkle.style.left = `${e.clientX}px`;
+                sparkle.style.top = `${e.clientY}px`;
+                
+                const x = (Math.random() - 0.5) * 100;
+                const y = (Math.random() - 0.5) * 100;
+                
+                sparkle.style.setProperty('--x', `${x}px`);
+                sparkle.style.setProperty('--y', `${y}px`);
+                
+                sparklesContainer.appendChild(sparkle);
+                
+                setTimeout(() => {
+                    sparkle.remove();
+                }, 1000);
+            }
+        });
     </script>
 </body>
 </html>
