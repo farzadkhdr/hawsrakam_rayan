@@ -1,1 +1,231 @@
-.
+<!DOCTYPE html>
+<html lang="ckb">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>خۆشەویستی من</title>
+    <style>
+        /* ڕێکخستنی گشتی */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(145deg, #1a0b1f 0%, #3d1f3d 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Segoe UI', 'Noto Naskh Arabic', 'Tahoma', cursive, sans-serif;
+            padding: 20px;
+        }
+
+        .card {
+            max-width: 520px;
+            width: 100%;
+            background: rgba(255, 245, 235, 0.1);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border-radius: 60px 20px 60px 20px;
+            box-shadow: 0 30px 50px rgba(0, 0, 0, 0.7), 0 0 0 2px rgba(255, 215, 200, 0.15);
+            padding: 28px 22px 38px;
+            transition: all 0.3s;
+            text-align: center;
+            border: 1px solid rgba(255, 220, 180, 0.25);
+        }
+
+        /* دکمەکە */
+        .love-btn {
+            width: 100%;
+            padding: 20px 10px;
+            font-size: 2.2rem;
+            font-weight: bold;
+            color: #fff7e6;
+            background: linear-gradient(135deg, #b32e5a, #691c3b);
+            border: none;
+            border-radius: 120px;
+            cursor: pointer;
+            box-shadow: 0 12px 0 #3f0e1f, 0 8px 25px rgba(190, 60, 100, 0.6);
+            transition: all 0.08s linear;
+            letter-spacing: 2px;
+            text-shadow: 0 4px 6px #1f0b13;
+            font-family: inherit;
+            margin-bottom: 28px;
+        }
+
+        .love-btn:active {
+            transform: translateY(8px);
+            box-shadow: 0 4px 0 #3f0e1f, 0 8px 20px #b32e5a;
+        }
+
+        /* شوێنی ڤیدیۆ */
+        .video-wrapper {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%; /* 16:9 */
+            height: 0;
+            border-radius: 32px 12px 32px 12px;
+            overflow: hidden;
+            background: #0f0710;
+            box-shadow: inset 0 0 30px #0b050b, 0 12px 28px #100510;
+            margin-bottom: 18px;
+            border: 1px solid #9f6a7a;
+        }
+
+        .video-wrapper video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* وێنەکە */
+        .image-wrapper {
+            width: 100%;
+            border-radius: 40px 8px 40px 8px;
+            overflow: hidden;
+            box-shadow: 0 15px 30px #0b040b;
+            margin: 16px 0 16px;
+            border: 2px solid #b28b8b;
+            transition: 0.3s;
+            background: #250f1a;
+        }
+
+        .image-wrapper img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* تێکستی خوارەوە - بە فۆنتی کوردی (ئەم ستایلە بۆ سەرجەم نوسینە کوردییەکان باشە) */
+        .poem-text {
+            font-family: 'Noto Naskh Arabic', 'Scheherazade New', 'Amiri', 'Tahoma', serif;
+            font-size: 1.1rem;
+            line-height: 2.1;
+            color: #fff7ea;
+            background: rgba(20, 5, 15, 0.6);
+            padding: 22px 18px;
+            border-radius: 60px 8px 60px 8px;
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            border-right: 6px solid #d49b8a;
+            border-left: 2px solid #ac6b7a;
+            box-shadow: 0 4px 20px #14070e;
+            text-shadow: 0 2px 3px #0a0308;
+            direction: rtl;
+            letter-spacing: 0.4px;
+            font-weight: 400;
+            word-spacing: 2px;
+            margin-top: 8px;
+        }
+
+        /* بۆ ئەوەی ڕستەکان بە ڕێکی بشکێت */
+        .poem-text p {
+            margin: 0;
+        }
+
+        /* بچووککردنەوە بۆ مۆبایل */
+        @media (max-width: 500px) {
+            .card { padding: 18px 12px 28px; }
+            .love-btn { font-size: 1.8rem; padding: 16px 6px; }
+            .poem-text { font-size: 0.95rem; line-height: 2; padding: 18px 12px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+
+        <!-- دکمەی کلیک -->
+        <button class="love-btn" id="loveButton">💖 کلیک بکە نازداریم 💖</button>
+
+        <!-- ڤیدیۆکە -->
+        <div class="video-wrapper" id="videoWrapper">
+            <video id="loveVideo" preload="metadata">
+                <source src="https://github.com/farzadkhdr/hawsrakam_rayan/raw/main/p/-2502922404567162219.mp4" type="video/mp4">
+                وێبگەڕەکەت پشتگیری ڤیدیۆ ناکات.
+            </video>
+        </div>
+
+        <!-- وێنەکە -->
+        <div class="image-wrapper">
+            <img 
+                src="https://github.com/farzadkhdr/hawsrakam_rayan/raw/main/p/IMG_8262.jpeg" 
+                alt="وێنەی خۆشەویستی" 
+                id="loveImage"
+                loading="lazy"
+            />
+        </div>
+
+        <!-- تێکستە کوردییەکە (بە فۆنتێکی جوان) -->
+        <div class="poem-text">
+            <p>
+                ڕەیانم تاقانەی هەردوو دونیام<br />
+                زۆر جار دەڵێم خوایە دەبێ من نانم دابیتە چ فەقیرێک<br />
+                کە ئاوا بەتۆ قەربووی بۆ کردوومەتەوە<br />
+                یان گرێ بەختم کراوەتەوە<br />
+                یان دوا ساتە خۆشەکانی ژیانمە<br />
+                کە خودا تۆی بۆمن ناردووە<br />
+                هاوسەرە جوانەکەی من<br />
+                تاقانەی من<br />
+                جوانکیلەی ماڵی من<br />
+                جیانم فیدات بی باشە
+            </p>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            const button = document.getElementById('loveButton');
+            const video = document.getElementById('loveVideo');
+            const videoWrapper = document.getElementById('videoWrapper');
+
+            // کاتێ کلیک دەکات، ڤیدیۆ دەست پێدەکات
+            button.addEventListener('click', function() {
+                // ئەگەر ڤیدیۆ بە تاکەوە بێت، پێی بڵێن لێبدە
+                if (video.paused) {
+                    video.play().catch(function(error) {
+                        // ئەگەر هەر کێشەیەک هەبوو، بێدەنگی تێپەڕێنە
+                        console.log("ڤیدیۆ نەیتوانی لێبدات:", error);
+                    });
+                } else {
+                    // ئەگەر دەنگی هەیە، بکوژێنەوە (بۆ ئەوەی جارێکی تر کلیک بکات دووبارە لێیبداتەوە)
+                    video.pause();
+                    // بۆ ئەوەی کە کلیکی دووبارە بیکاتەوە، دەستپێبکاتەوە
+                    // بەڵام باشترە هەر دەستپێبکاتەوە لە سەرەتاوە کاتێک کلیک دەکات
+                    // ئێمە دەستپێکردنەوە لە سەرەتاوە بۆ ئەم حاڵەتە دروست دەکەین
+                }
+                // هەر جارێک کلیک بکات، ڤیدیۆکە لە سەرەتاوە دەست پێدەکات (ئەگەر تەواو بووبێت یان پاوز کرابێت)
+                // بەڵام ئەمە وا دەکات کە بەردەوام بێت، باشترە پاوز بکات بۆ ئەوەی بەردەوام بێت
+                // بۆیە ئەم کۆدە بەکاری دەهێنین: 
+                // ئەگەر ڤیدیۆکە تەواو بوو، بیگەڕێنە سەرەتا و بلێ
+                if (video.ended) {
+                    video.currentTime = 0;
+                    video.play().catch(() => {});
+                } else if (video.paused) {
+                    // ئەگەر پاوز کرابوو، بلێ
+                    video.play().catch(() => {});
+                } else {
+                    // ئەگەر دەنگی هەیە، بکوژێنەوە (بۆ ئەوەی جارێکی تر کلیک بکات دووبارە لێبدرێت)
+                    video.pause();
+                }
+            });
+
+            // ئەگەر ڤیدیۆکە بە هۆکاری ترەوە وەستا، دەتوانین ڕێگە بدەین
+            // بەڵام هیچی تر پێویست نییە
+
+            // بۆ باشتر کردن، کاتێ ڤیدیۆ تەواو دەبێت، خۆکارانە پاوز ناکات
+            // تا کلیکی دووبارە بیکاتەوە لێیبداتەوە
+            video.addEventListener('ended', function() {
+                // هیچ ناکەین، بەڵام دەتوانین ڕەنگی دکمە بگۆڕین یان شتێکی تر
+                // بەڵام وا باشترە
+            });
+
+        })();
+    </script>
+</body>
+</html>
