@@ -21,6 +21,7 @@
             align-items: center;
             font-family: 'Noto Naskh Arabic', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             padding: 20px;
+            overflow-x: hidden;
         }
         
         .container {
@@ -31,6 +32,7 @@
             text-align: center;
             max-width: 600px;
             width: 100%;
+            position: relative;
         }
         
         .heart-btn {
@@ -49,6 +51,8 @@
             display: inline-flex;
             align-items: center;
             gap: 10px;
+            position: relative;
+            overflow: hidden;
         }
         
         .heart-btn:hover {
@@ -101,6 +105,11 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             margin-bottom: 25px;
             border: 5px solid white;
+            transition: transform 0.3s ease;
+        }
+        
+        .love-image:hover {
+            transform: scale(1.02);
         }
         
         .love-text {
@@ -137,28 +146,51 @@
             left: 10px;
         }
         
-        .video-container {
-            margin-bottom: 25px;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        .audio-controls {
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
         }
         
-        video {
-            width: 100%;
-            border-radius: 15px;
+        .audio-btn {
+            background: linear-gradient(45deg, #a29bfe, #6c5ce7);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-family: 'Noto Naskh Arabic', sans-serif;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .audio-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(108, 92, 231, 0.3);
+        }
+        
+        .volume-slider {
+            direction: ltr;
         }
         
         .sparkles {
             position: fixed;
             pointer-events: none;
             z-index: 1000;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
         }
         
         .sparkle {
             position: absolute;
-            width: 10px;
-            height: 10px;
             background: #ffd700;
             border-radius: 50%;
             animation: sparkleAnimation 1s ease-out forwards;
@@ -174,6 +206,58 @@
                 opacity: 0; 
             }
         }
+        
+        .floating-hearts {
+            position: fixed;
+            pointer-events: none;
+            z-index: 999;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .floating-heart {
+            position: absolute;
+            animation: floatUp 3s ease-out forwards;
+            font-size: 24px;
+        }
+        
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-200px) scale(0);
+                opacity: 0;
+            }
+        }
+        
+        .loading {
+            display: none;
+        }
+        
+        .now-playing {
+            display: none;
+            background: linear-gradient(45deg, #00b894, #00cec9);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            margin: 15px 0;
+            font-family: 'Noto Naskh Arabic', sans-serif;
+            animation: pulse 2s infinite;
+        }
+        
+        .now-playing.show {
+            display: inline-block;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 0.7; }
+            50% { opacity: 1; }
+            100% { opacity: 0.7; }
+        }
     </style>
 </head>
 <body>
@@ -185,17 +269,11 @@
         </button>
         
         <div class="content-section" id="loveContent">
-            <div class="video-container">
-                <video id="loveVideo" controls>
-                    <source src="https://raw.githubusercontent.com/farzadkhdr/hawsrakam_rayan/main/p/-2502922404567162219.mp4" type="video/mp4">
-                    براوزەرەکەت پشتگیری ڤیدیۆ ناکات
-                </video>
-            </div>
-            
             <img 
                 src="https://raw.githubusercontent.com/farzadkhdr/hawsrakam_rayan/main/p/IMG_8262.jpeg" 
                 alt="هاوسەری جوان" 
                 class="love-image"
+                onerror="this.src='data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22400%22%20height%3D%22400%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Crect%20width%3D%22400%22%20height%3D%22400%22%20fill%3D%22%23ddd%22%2F%3E%3Ctext%20x%3D%22200%22%20y%3D%22200%22%20font-size%3D%2220%22%20text-anchor%3D%22middle%22%20dy%3D%22.3em%22%20fill%3D%22%23999%22%3Eوێنەکە نەدۆزرایەوە%3C%2Ftext%3E%3C%2Fsvg%3E'"
             >
             
             <div class="love-text">
@@ -209,28 +287,53 @@
                 تـاقانـەی مـن جـوانکـیلەی مـاڵی مـن<br>
                 جـیانم فـیدات بـی باشـە
             </div>
+            
+            <div class="now-playing" id="nowPlaying">
+                🎵 گۆرانییەکەت کار دەکات...
+            </div>
+            
+            <div class="audio-controls" id="audioControls" style="display: none;">
+                <button class="audio-btn" onclick="togglePlayPause()">
+                    <span id="playPauseIcon">⏸️</span>
+                    <span id="playPauseText">ڕاگرتن</span>
+                </button>
+                <button class="audio-btn" onclick="restartAudio()">
+                    🔄 دووبارە
+                </button>
+                <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="70" onchange="changeVolume(this.value)">
+            </div>
         </div>
     </div>
     
+    <audio id="loveAudio" preload="auto">
+        <source src="https://raw.githubusercontent.com/farzadkhdr/hawsrakam_rayan/main/p/-2502922404567162219.mp4" type="audio/mp4">
+        براوزەرەکەت پشتگیری دەنگ ناکات
+    </audio>
+    
     <div class="sparkles" id="sparkles"></div>
+    <div class="floating-hearts" id="floatingHearts"></div>
 
     <script>
+        let audio = document.getElementById('loveAudio');
+        let isPlaying = false;
+        
         function showLove() {
             const content = document.getElementById('loveContent');
-            const video = document.getElementById('loveVideo');
+            const audioControls = document.getElementById('audioControls');
+            const nowPlaying = document.getElementById('nowPlaying');
             
             // نیشاندانی ناوەرۆک
             content.classList.add('show');
             
-            // دەستپێکردنی ڤیدیۆ
-            if (video) {
-                video.play().catch(error => {
-                    console.log('ناتوانرێت ڤیدیۆکە بە شێوەی ئۆتۆماتیکی دەست پێبکات');
-                });
-            }
+            // دەستپێکردنی دەنگ
+            playAudio();
             
-            // دروستکردنی سپارکڵ
+            // نیشاندانی کۆنترۆڵەکان
+            audioControls.style.display = 'flex';
+            
+            // دروستکردنی ئیفێکتی سپارکڵ و دڵ
             createSparkles();
+            createFloatingHearts();
             
             // سکرۆڵ بۆ ناوەرۆکەکە
             setTimeout(() => {
@@ -238,17 +341,77 @@
             }, 300);
         }
         
+        function playAudio() {
+            const nowPlaying = document.getElementById('nowPlaying');
+            
+            audio.play().then(() => {
+                isPlaying = true;
+                nowPlaying.classList.add('show');
+                updatePlayPauseButton();
+                
+                // شاراوەکردنی "گۆرانی کار دەکات" دوای 3 چرکە
+                setTimeout(() => {
+                    nowPlaying.classList.remove('show');
+                }, 3000);
+                
+            }).catch(error => {
+                console.log('ناتوانرێت دەنگەکە دەست پێبکات:', error);
+                alert('تکایە کلیک بکە بۆ دەستپێکردنی دەنگەکە');
+            });
+            
+            // کاتێک گۆرانییەکە تەواو بوو
+            audio.addEventListener('ended', () => {
+                isPlaying = false;
+                updatePlayPauseButton();
+            });
+        }
+        
+        function togglePlayPause() {
+            if (isPlaying) {
+                audio.pause();
+                isPlaying = false;
+            } else {
+                audio.play();
+                isPlaying = true;
+            }
+            updatePlayPauseButton();
+        }
+        
+        function updatePlayPauseButton() {
+            const icon = document.getElementById('playPauseIcon');
+            const text = document.getElementById('playPauseText');
+            
+            if (isPlaying) {
+                icon.textContent = '⏸️';
+                text.textContent = 'ڕاگرتن';
+            } else {
+                icon.textContent = '▶️';
+                text.textContent = 'دەستپێکردنەوە';
+            }
+        }
+        
+        function restartAudio() {
+            audio.currentTime = 0;
+            audio.play();
+            isPlaying = true;
+            updatePlayPauseButton();
+        }
+        
+        function changeVolume(value) {
+            audio.volume = value / 100;
+        }
+        
         function createSparkles() {
             const sparklesContainer = document.getElementById('sparkles');
-            const numberOfSparkles = 30;
+            const numberOfSparkles = 40;
             
             for (let i = 0; i < numberOfSparkles; i++) {
                 setTimeout(() => {
                     const sparkle = document.createElement('div');
                     sparkle.className = 'sparkle';
                     
-                    const x = (Math.random() - 0.5) * 200;
-                    const y = (Math.random() - 0.5) * 200;
+                    const x = (Math.random() - 0.5) * 300;
+                    const y = (Math.random() - 0.5) * 300;
                     
                     sparkle.style.setProperty('--x', `${x}px`);
                     sparkle.style.setProperty('--y', `${y}px`);
@@ -259,41 +422,59 @@
                     sparkle.style.width = `${Math.random() * 15 + 5}px`;
                     sparkle.style.height = sparkle.style.width;
                     
+                    sparkle.style.background = `hsl(${Math.random() * 60 + 30}, 100%, 60%)`;
+                    
                     sparklesContainer.appendChild(sparkle);
                     
-                    // لابردنی سپارکڵ دوای ئەنیمەیشن
                     setTimeout(() => {
                         sparkle.remove();
                     }, 1000);
-                }, i * 50);
+                }, i * 30);
             }
         }
         
-        // ئیڤێنتی کلیک بۆ دروستکردنی سپارکڵ لە شوێنی کلیک
-        document.addEventListener('click', function(e) {
-            const sparklesContainer = document.getElementById('sparkles');
-            const rect = sparklesContainer.getBoundingClientRect();
+        function createFloatingHearts() {
+            const heartsContainer = document.getElementById('floatingHearts');
+            const hearts = ['❤️', '💕', '💖', '💗', '💝', '✨', '🌟', '💫'];
             
-            for (let i = 0; i < 5; i++) {
-                const sparkle = document.createElement('div');
-                sparkle.className = 'sparkle';
-                
-                sparkle.style.left = `${e.clientX}px`;
-                sparkle.style.top = `${e.clientY}px`;
-                
-                const x = (Math.random() - 0.5) * 100;
-                const y = (Math.random() - 0.5) * 100;
-                
-                sparkle.style.setProperty('--x', `${x}px`);
-                sparkle.style.setProperty('--y', `${y}px`);
-                
-                sparklesContainer.appendChild(sparkle);
-                
+            for (let i = 0; i < 20; i++) {
                 setTimeout(() => {
-                    sparkle.remove();
-                }, 1000);
+                    const heart = document.createElement('div');
+                    heart.className = 'floating-heart';
+                    heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+                    
+                    heart.style.left = `${Math.random() * 100}%`;
+                    heart.style.top = `${Math.random() * 100}%`;
+                    heart.style.fontSize = `${Math.random() * 30 + 20}px`;
+                    
+                    heartsContainer.appendChild(heart);
+                    
+                    setTimeout(() => {
+                        heart.remove();
+                    }, 3000);
+                }, i * 200);
             }
+        }
+        
+        // زیادکردنی ئیفێکتی دڵ بە کلیک
+        document.addEventListener('click', function(e) {
+            const heartsContainer = document.getElementById('floatingHearts');
+            const heart = document.createElement('div');
+            heart.className = 'floating-heart';
+            heart.textContent = '💕';
+            heart.style.left = `${e.clientX}px`;
+            heart.style.top = `${e.clientY}px`;
+            heart.style.fontSize = '30px';
+            
+            heartsContainer.appendChild(heart);
+            
+            setTimeout(() => {
+                heart.remove();
+            }, 3000);
         });
+        
+        // ڕێکخستنی ڤۆڵیومی سەرەتایی
+        audio.volume = 0.7;
     </script>
 </body>
 </html>
